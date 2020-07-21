@@ -1,8 +1,11 @@
 // USAGE:
 // - Install this in Chrome DevTools' Sources > Snippets
+// - Configure the order numbers to track below
 // - Configure the entry values below
-// - Configure the CSS selectors to point to your bullish and bearish trade values on the page
 // - Run it on a TradePartner Smart Order page like https://tradepartner.io/trading/smart-orders/71994
+
+window.bullishOrderNumber = 4
+window.bearishOrderNumber = 3
 
 // Negative equals a credit on entry
 window.bullishEntryValue = 0.6
@@ -15,10 +18,17 @@ const scrollerElement = document.createElement('div')
 scrollerElement.style.cssText = 'overflow: scroll; height: 20rem;'
 document.body.prepend(scrollerElement)
 
+function getOrderCurrentValue (orderNumber) {
+    return Array.from(document.querySelectorAll('h4'))
+        .filter(el => el.textContent.indexOf(`Order ${orderNumber}`) !== -1)[0]
+        .parentNode.parentNode.querySelector('b').textContent
+        .split('$')[1]
+}
+
 function calculateTradeBalance () {
     
-    const bullishCurrentValue = document.querySelector("#sosystem > section.col-sm-6.order-section > div:nth-child(7) > div > div > div.panel-heading > div > div:nth-child(2) > span > b").textContent.split('$')[1]
-    const bearishCurrentValue = document.querySelector("#sosystem > section.col-sm-6.order-section > div:nth-child(6) > div > div > div.panel-heading > div > div:nth-child(2) > span > b").textContent.split('$')[1]
+    const bullishCurrentValue = getOrderCurrentValue(window.bullishOrderNumber)
+    const bearishCurrentValue = getOrderCurrentValue(window.bearishOrderNumber)
 
     // Negative equals a net credit on exit, which means a profit
 
