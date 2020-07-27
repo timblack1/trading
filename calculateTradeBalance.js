@@ -6,9 +6,10 @@
 // - Run it on a TradePartner Smart Order page like https://tradepartner.io/trading/smart-orders/71994
 
 // NOTES
-// The orders' entry cost and tracking status is stored in localStorage to persist between page reloads.
-// The data for each smart order page (URL) is stored separately, so this script can run for multiple
-// smart orders simultaneously.
+// - The orders' entry cost and tracking status is stored in localStorage to persist between page reloads.
+// - The data for each smart order page (URL) is stored separately, so this script can run for multiple
+//   smart orders (on multiple pages) simultaneously.
+// - The script raises a browser notification when the trade turns profitable.
 
 // Write new order data to localStorage
 // Event occurs on the checkbox or text input
