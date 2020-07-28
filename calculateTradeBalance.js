@@ -2,11 +2,11 @@
 
 // USAGE:
 // - Install this in Chrome DevTools' Sources > Snippets
-// - Configure the order numbers to track below, and their entry values
+// - Configure the order numbers to track below, their entry values, and trade sizes
 // - Run it on a TradePartner Smart Order page like https://tradepartner.io/trading/smart-orders/71994
 
 // NOTES
-// - The orders' entry cost and tracking status is stored in localStorage to persist between page reloads.
+// - The orders' tracking status, entry cost and trade size is stored in localStorage to persist between page reloads.
 // - The data for each smart order page (URL) is stored separately, so this script can run for multiple
 //   smart orders (on multiple pages) simultaneously.
 // - The script raises a browser notification when the trade turns profitable.
