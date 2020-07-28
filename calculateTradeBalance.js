@@ -112,7 +112,6 @@ window.ordersOnPage = ordersOnPageInverseElements
 
 // Set up global variables
 window.profitOrLoss = 'loss'
-window.userAcknowledgedNotification = true
 
 // Create scroller element to display output
 const scrollerElement = document.createElement('div')
@@ -147,7 +146,7 @@ function calculateTradeBalance () {
         ? 'profit'
         : 'loss'
 
-    if (oldProfitOrLoss === 'loss' && window.profitOrLoss === 'profit' && window.userAcknowledgedNotification === true) {
+    if (oldProfitOrLoss === 'loss' && window.profitOrLoss === 'profit') {
         // Notify the user that the trade has turned profitable
         const message = 'This trade turned profitable!'
         // Create window manager-level notification
@@ -161,11 +160,6 @@ function calculateTradeBalance () {
           parent.focus();
           window.focus();
         })
-        // Do not send multiple copies of this notification
-        window.userAcknowledgedNotification = false
-        // TODO: Is it a problem for TradePartner functionality that this blocks the browser's
-        // JavaScript execution?
-        // window.userAcknowledgedNotification = window.confirm(message)
     }
 
     const outputMessage = `Current ${window.profitOrLoss}: $${exitTotal.toFixed(2)}`
