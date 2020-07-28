@@ -22,7 +22,8 @@ function writeOrdersToLocalStorage (event) {
   }
   storedOrders[event.target.dataset.id] = {
     id: event.target.dataset.id,
-    entryValue: event.target.parentNode.querySelector('input[type="text"]').value,
+    entryValue: event.target.parentNode.querySelector('.entry-value').value,
+    tradeSize: event.target.parentNode.querySelector('.trade-size').value,
     selected: event.target.parentNode.querySelector('input[type="checkbox"]').checked
   }
   localStorage.setItem(window.location.pathname, JSON.stringify(storedOrders))
@@ -61,26 +62,40 @@ window.ordersOnPage = ordersOnPageInverseElements
   orderElement.appendChild(checkbox)
 
   // Create an entry value input on the page
-  const textInput = document.createElement('input')
-  textInput.type = 'text'
-  textInput.dataset.id = id
-  textInput.placeholder = 'Entry'
-  textInput.title = "Please supply this order's entry cost. A negative entry value equals a credit."
-  textInput.style.cssText = 'margin-left: 0.3em; width: 3em; font-size: 0.75em; position: relative; top: -2px;'
-  textInput.addEventListener('change', writeOrdersToLocalStorage)
-  orderElement.appendChild(textInput)
+  const entryValueTextInput = document.createElement('input')
+  entryValueTextInput.type = 'text'
+  entryValueTextInput.dataset.id = id
+  entryValueTextInput.placeholder = 'Entry'
+  entryValueTextInput.title = "Please supply this order's entry cost. A negative entry value equals a credit."
+  entryValueTextInput.classList.add('entry-value')
+  entryValueTextInput.style.cssText = 'margin-left: 0.3em; width: 3em; font-size: 0.75em; position: relative; top: -2px;'
+  entryValueTextInput.addEventListener('change', writeOrdersToLocalStorage)
+  orderElement.appendChild(entryValueTextInput)
+
+  // Create a trade size value input on the page
+  const tradeSizeTextInput = document.createElement('input')
+  tradeSizeTextInput.type = 'text'
+  tradeSizeTextInput.dataset.id = id
+  tradeSizeTextInput.title = "Please supply this order's trade size."
+  tradeSizeTextInput.classList.add('trade-size')
+  tradeSizeTextInput.style.cssText = 'margin-left: 0.3em; width: 3em; font-size: 0.75em; position: relative; top: -2px;'
+  tradeSizeTextInput.addEventListener('change', writeOrdersToLocalStorage)
+  orderElement.appendChild(tradeSizeTextInput)
+
 
   // Sync storedOrders with ordersOnPage
   const order = storedOrders[id]
   if (typeof order !== 'undefined') {
     // The order exists in storage, so populate the inputs with stored data
     checkbox.checked = order.selected
-    textInput.value = order.entryValue
+    entryValueTextInput.value = order.entryValue
+    tradeSizeTextInput.value = typeof order.tradeSize !== 'undefined' ? order.tradeSize : 1
   } else {
     // The order does not exist in storage, so create it there
     storedOrders[id] = {
       id: id,
-      entryValue: textInput.value,
+      entryValue: entryValueTextInput.value,
+      tradeSize: tradeSizeTextInput.value,
       selected: checkbox.checked
     }
     localStorage.setItem(window.location.pathname, JSON.stringify(storedOrders))
@@ -90,7 +105,8 @@ window.ordersOnPage = ordersOnPageInverseElements
   return {
     id: index + 1,
     checkbox: checkbox,
-    textInput: textInput
+    entryValueTextInput: entryValueTextInput,
+    tradeSizeTextInput: tradeSizeTextInput
   }
 })
 
@@ -121,7 +137,7 @@ function calculateTradeBalance () {
     .map(order => {
         const currentValue = getOrderCurrentValue(order.id)
         // Return the current balance for this order
-        return currentValue - order.textInput.value
+        return (currentValue - parseFloat(order.entryValueTextInput.value)) * parseInt(order.tradeSizeTextInput.value)
     })
     .reduce((accumulator, currentValue) => accumulator + currentValue) * 100
 
