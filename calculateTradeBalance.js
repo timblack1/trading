@@ -76,6 +76,7 @@ window.ordersOnPage = ordersOnPageInverseElements
   const tradeSizeTextInput = document.createElement('input')
   tradeSizeTextInput.type = 'text'
   tradeSizeTextInput.dataset.id = id
+  tradeSizeTextInput.placeholder = 'Size'
   tradeSizeTextInput.title = "Please supply this order's trade size."
   tradeSizeTextInput.classList.add('trade-size')
   tradeSizeTextInput.style.cssText = 'margin-left: 0.3em; width: 3em; font-size: 0.75em; position: relative; top: -2px;'
