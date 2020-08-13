@@ -5,7 +5,7 @@
 // - Configure the order numbers to track below, their entry values, and trade sizes
 // - Run it on a TradePartner Smart Order page like https://tradepartner.io/trading/smart-orders/71994
 
-// NOTES
+// FEATURES
 // - The orders' tracking status, entry cost and trade size is stored in localStorage to persist between page reloads.
 // - The data for each smart order page (URL) is stored separately, so this script can run for multiple
 //   smart orders (on multiple pages) simultaneously.
